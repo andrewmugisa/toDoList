@@ -1,13 +1,18 @@
 package org.wigo.todolist.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.wigo.todolist.enums.EventCategory;
 import org.wigo.todolist.enums.EventStatus;
 import org.wigo.todolist.model.Event;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.UUID;
 
-public class EventResponse {
+@Getter
+@Setter
+public class EventResponseDto {
+    private UUID id;
     private String title;
     private String description;
     private String location;
@@ -16,7 +21,8 @@ public class EventResponse {
     private EventCategory category;
     private EventStatus status;
 
-    public EventResponse(Event event) {
+    public EventResponseDto(Event event) {
+        this.id = event.getId();
         this.title = event.getTitle();
         this.description = event.getDescription();
         this.location = event.getLocation();

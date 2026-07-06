@@ -1,4 +1,5 @@
 package org.wigo.todolist.enums;
 
-public class EventCategory {
+public enum EventCategory {
+    PERSONAL, SCHOOL, WORK, PROJECTS
 }
