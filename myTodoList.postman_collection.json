@@ -1,0 +1,428 @@
+{
+  "info": {
+    "_postman_id": "c82a2a52-5dff-4c66-b0c9-7e8824f89488",
+    "name": "myTodoList",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43554719"
+  },
+  "item": [
+    {
+      "name": "registerUser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const res = pm.response.json();\r",
+              "if (res.id) {\r",
+              "    pm.collectionVariables.set(\"userId\", String(res.id).trim());\r",
+              "    pm.test(\"registered, userId saved\", () => {\r",
+              "        pm.expect(res.id).to.be.a(\"string\").and.not.empty;\r",
+              "    });\r",
+              "} else {\r",
+              "    pm.test(\"username already exists (expected on re-run)\", () => {\r",
+              "        pm.expect(res.message).to.include(\"already exists\");\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"john\",\r\n  \"password\": \"123456\",\r\n  \"email\": \"test@test.com\",\r\n  \"name\": \"myname\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));\r",
+              "const res = pm.response.json();\r",
+              "pm.collectionVariables.set(\"userId\", String(res.id).trim());\r",
+              "pm.test(\"login ok, userId saved\", () => {\r",
+              "    pm.expect(res.id).to.be.a(\"string\").and.not.empty;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"john\",\r\n  \"password\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "createUserEvents",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status ok\", () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));\r",
+              "const res = pm.response.json();\r",
+              "pm.collectionVariables.set(\"eventId\", String(res.id).trim());\r",
+              "pm.test(\"event created, eventId saved\", () => {\r",
+              "    pm.expect(res.id).to.be.a(\"string\").and.not.empty;\r",
+              "    pm.expect(res.category).to.eql(\"WORK\");\r",
+              "    pm.expect(res.status).to.eql(\"PUBLISHED\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \" my Fist Event\",\r\n  \"description\": \"Sing and Dance\",\r\n  \"location\": \"Orleans\",\r\n  \"start\": \"2026-07-04T07:14:24\",\r\n  \"end\": \"2026-07-04T09:00:00\",\r\n  \"category\": \"work\",\r\n  \"status\": \"Published\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/events/create?userId={{userId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "create"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getUserEvents",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));\r",
+              "const res = pm.response.json();\r",
+              "pm.test(\"response is an array\", () => pm.expect(res).to.be.an(\"array\"));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/events/all?userId={{userId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "all"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updateEvent",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));\r",
+              "const res = pm.response.json();\r",
+              "pm.test(\"updated to London/PERSONAL/DRAFT\", () => {\r",
+              "    pm.expect(res.location).to.eql(\"London\");\r",
+              "    pm.expect(res.category).to.eql(\"PERSONAL\");\r",
+              "    pm.expect(res.status).to.eql(\"DRAFT\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \" my Fist Event\",\r\n  \"description\": \"Sing and Dance\",\r\n  \"location\": \"London\",\r\n  \"start\": \"2026-07-04T07:14:24\",\r\n  \"end\": \"2026-07-04T09:00:00\",\r\n  \"category\": \"Personal\",\r\n  \"status\": \"draft\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/events/update?userId={{userId}}&eventId={{eventId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "update"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            },
+            {
+              "key": "eventId",
+              "value": "{{eventId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "archieveEvent",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));\r",
+              "const res = pm.response.json();\r",
+              "pm.test(\"archived\", () => pm.expect(res.message).to.include(\"Archived\"));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/events/archieve?userId={{userId}}&eventId={{eventId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "archieve"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            },
+            {
+              "key": "eventId",
+              "value": "{{eventId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "removeUserEvent",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));\r",
+              "const res = pm.response.json();\r",
+              "pm.test(\"deleted\", () => pm.expect(res.message).to.include(\"deleted\"));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/events/delete?userId={{userId}}&eventId={{eventId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "delete"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            },
+            {
+              "key": "eventId",
+              "value": "{{eventId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deleteUser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));\r",
+              "const res = pm.response.json();\r",
+              "pm.test(\"user deleted\", () => pm.expect(res.message).to.include(\"Deleted\"));\r",
+              "pm.collectionVariables.unset(\"userId\");\r",
+              "pm.collectionVariables.unset(\"eventId\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"joy\",\r\n  \"password\": \"123456\"\r\n}\r\n"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/delete?userId={{userId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "delete"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
