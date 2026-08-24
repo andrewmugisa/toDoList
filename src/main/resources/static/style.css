@@ -1,0 +1,200 @@
+body {
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  background-color: rgb(17, 19, 26);
+  color: rgb(255, 255, 255);
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#checker {
+  width: 90%;
+  border: 0.1px solid hsla(0, 0%, 41%, 0.322);
+  border-radius: 18px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: center;
+  align-content: space-evenly;
+  margin-bottom: 5px;
+}
+
+#checker p {
+  font-size: 14px;
+}
+
+input {
+  padding: 8px;
+  background-color: #36384059;
+  color: rgb(196, 196, 196);
+  border: 0.1px solid rgb(19, 18, 18);
+
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: black;
+  padding: 20px;
+  border: 0.01px solid rgb(44, 1, 1);
+  border-radius: 18px;
+  width: min(500px, 90%);
+}
+
+#numb {
+  display: block;
+  text-align: center;
+  font-size: 8em;
+  margin: 115px 2px;
+}
+
+#buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-content: space-between;
+}
+#buttons button {
+  flex: 1;
+}
+
+button {
+  background-color: rgb(70, 3, 70);
+  border-radius: 4px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2;
+  color: rgb(255, 255, 255);
+}
+
+button:hover {
+  background-color: rgb(156, 9, 156);
+}
+
+/* ==========================form========================= */
+#formContainer {
+  text-align: center;
+  width: min(500px, 90%);
+  padding: 20px;
+  margin-top: 20px;
+  border: 0.1px solid hsla(0, 0%, 41%, 0.322);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#formTitlec {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+#formContainer section {
+  border-radius: 18px;
+  border: 0.1px solid hsla(0, 0%, 41%, 0.068);
+}
+
+section div {
+  padding: 10px;
+}
+
+#genderSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  align-content: space-evenly;
+}
+
+#genderSectionTitle {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+#genderSectionContent {
+  display: flex;
+  flex-direction: row;
+}
+
+#confirmation,
+#otherCheckBoxField {
+  display: none;
+}
+#otherCheckBoxField {
+  width: fit-content;
+}
+
+/* ==========================weather========================= */
+#weatherSection {
+  border-radius: 18px;
+  padding: 20px;
+  min-width: 30rem;
+  margin-top: 20px;
+  border: 0.1px solid hsla(0, 0%, 41%, 0.185);
+}
+#weatherCard {
+  background: linear-gradient(
+    180deg,
+    hsl(210, 100%, 75%),
+    rgba(255, 166, 0, 0.884)
+  );
+  margin-top: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  box-shadow: 2px 2px 5px hsla(0, 0%, 12%, 0.966);
+  min-width: 30rem;
+  font-weight: bold;
+  color: black;
+}
+#weatherForm {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+}
+#weatherForm input {
+  flex: 1;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.103);
+  box-shadow: none;
+  color: rgb(97, 97, 97);
+  text-align: center;
+}
+#weatherForm input:focus {
+  outline: none;
+  box-shadow: none;
+  border: 0.1px solid #ffffff11; /* or whatever border you want */
+}
+#weatherForm input::placeholder {
+  color: rgba(102, 102, 102, 0.644);
+}
+
+#weatherCard h1 {
+  font-size: 3.5rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+#weatherCard p {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.emojiDisplay {
+  font-size: 7.5rem;
+}
+
+.errorDisplay {
+  margin: 0;
+  color: rgb(247, 39, 2);
+}
