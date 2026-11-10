@@ -3,9 +3,8 @@ package org.wigo.todolist.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.wigo.todolist.dto.ApiResponse;
-import org.wigo.todolist.dto.LoginRequestDto;
-import org.wigo.todolist.dto.UserRequestDto;
+import org.wigo.todolist.dto.AuthenticateUserDto;
+import org.wigo.todolist.dto.RegisterUserDto;
 import org.wigo.todolist.dto.UserResponseDto;
 import org.wigo.todolist.model.User;
 import org.wigo.todolist.repository.UserRepository;
@@ -24,7 +23,7 @@ public class UserService {
 
     //Login
     //Login
-    public UserResponseDto login(LoginRequestDto input) {
+    public UserResponseDto login(AuthenticateUserDto input) {
         User user = userRepository.findByUsername(input.getUsername())
                 .filter(u -> u.getPassword().equals(input.getPassword()))
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
@@ -34,7 +33,7 @@ public class UserService {
 
     //CRUD
     @Transactional
-    public UserResponseDto createUser(UserRequestDto input) {
+    public UserResponseDto createUser(RegisterUserDto input) {
         if(userRepository.existsByUsername(input.getUsername())){
             throw new IllegalArgumentException("Username already exists");
         }
@@ -56,7 +55,7 @@ public class UserService {
     }
 
     //Update
-    public User updateUser(User user, UserRequestDto input) {
+    public User updateUser(User user, RegisterUserDto input) {
         //find and update
        User currentUser =  userRepository.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));

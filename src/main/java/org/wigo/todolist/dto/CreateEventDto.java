@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class EventRequestDto {
+public class CreateEventDto {
     @NotNull (message = "Title cant be blank")
     private String title;
 
