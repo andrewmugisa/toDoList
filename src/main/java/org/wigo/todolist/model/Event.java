@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.wigo.todolist.enums.EventCategory;
-import org.wigo.todolist.enums.EventStatus;
+import org.wigo.todolist.model.enums.EventCategory;
+import org.wigo.todolist.model.enums.EventStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -48,6 +48,7 @@ public class Event {
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    //TODO make active ARCHIVE enum type in category
     @Column(nullable = false)
     private boolean active = true;
 

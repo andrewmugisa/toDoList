@@ -2,8 +2,8 @@ package org.wigo.todolist.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.wigo.todolist.enums.EventCategory;
-import org.wigo.todolist.enums.EventStatus;
+import org.wigo.todolist.model.enums.EventCategory;
+import org.wigo.todolist.model.enums.EventStatus;
 import org.wigo.todolist.model.Event;
 
 import java.time.LocalDateTime;

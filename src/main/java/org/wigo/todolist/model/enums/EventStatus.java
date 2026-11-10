@@ -1,4 +1,4 @@
-package org.wigo.todolist.enums;
+package org.wigo.todolist.model.enums;
 
 public enum EventStatus {
     DRAFT,

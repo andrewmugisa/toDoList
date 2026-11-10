@@ -2,11 +2,10 @@ package org.wigo.todolist.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.wigo.todolist.dto.ApiResponse;
-import org.wigo.todolist.dto.EventRequestDto;
+import org.wigo.todolist.dto.CreateEventDto;
 import org.wigo.todolist.dto.EventResponseDto;
-import org.wigo.todolist.enums.EventCategory;
-import org.wigo.todolist.enums.EventStatus;
+import org.wigo.todolist.model.enums.EventCategory;
+import org.wigo.todolist.model.enums.EventStatus;
 import org.wigo.todolist.model.Event;
 import org.wigo.todolist.model.User;
 import org.wigo.todolist.repository.EventRepository;
@@ -33,7 +32,7 @@ public class EventService {
 
     //Create
     @Transactional
-    public EventResponseDto createEvent(UUID userId, EventRequestDto input) {
+    public EventResponseDto createEvent(UUID userId, CreateEventDto input) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -68,7 +67,7 @@ public class EventService {
 
     //Update
     @Transactional
-    public EventResponseDto updateEvent(UUID userId, UUID eventId, EventRequestDto input) {
+    public EventResponseDto updateEvent(UUID userId, UUID eventId, CreateEventDto input) {
         //find the event, verify owner, update event
         EventCategory category = EventCategory.valueOf(input.getCategory().toUpperCase());
         EventStatus status = EventStatus.valueOf(input.getStatus().toUpperCase());

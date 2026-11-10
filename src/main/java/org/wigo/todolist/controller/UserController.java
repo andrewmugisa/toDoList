@@ -5,14 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wigo.todolist.dto.ApiResponse;
-import org.wigo.todolist.dto.LoginRequestDto;
-import org.wigo.todolist.dto.UserRequestDto;
+import org.wigo.todolist.dto.AuthenticateUserDto;
+import org.wigo.todolist.dto.RegisterUserDto;
 import org.wigo.todolist.service.UserService;
 
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/u")
+//@RequestMapping("/auth")
 public class UserController {
     private final UserService userService;
 
@@ -20,11 +21,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> createUser(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    @PostMapping("/")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthenticateUserDto authenticateUserDto) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(userService.login(loginRequestDto));
+                    .body(userService.login(authenticateUserDto));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ApiResponse(e.getMessage()));
@@ -33,10 +34,10 @@ public class UserController {
 
     //register
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterUserDto registerUserDto) {
         try{
             return ResponseEntity.status(HttpStatus.ACCEPTED)
-                    .body(userService.createUser(userRequestDto));
+                    .body(userService.createUser(registerUserDto));
 
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

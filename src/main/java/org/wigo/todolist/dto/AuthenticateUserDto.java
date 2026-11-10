@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LoginRequestDto {
+public class AuthenticateUserDto {
 //    @NotBlank(message = "Username is required")
 //    private String username;
 
@@ -18,7 +18,7 @@ public class LoginRequestDto {
     @NotBlank(message = "Password is required")
     private String password;
 
-    public LoginRequestDto(String email, String password) {
+    public AuthenticateUserDto(String email, String password) {
         this.email = email;
         this.password = password;
     }
