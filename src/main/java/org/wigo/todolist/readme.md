@@ -1,181 +1,296 @@
+# TODOLIST API
 
-># TODOLIST API
+Auth + Events flow. IDs auto-inject: register/login save `{{userId}}`, create saves `{{eventId}}`, and update/archive/delete reuse them.
 
-## API endpoints
+Run top-to-bottom via Collection Runner or Newman.
 
-### Simple auth
+## API Endpoints
 
-| Method | Endpoint         | Auth    | Description                                  |
-|---|------------------|---------|----------------------------------------------|
-| POST | `/auth/register` | Public  | Register with username,password ,email ,name |
-| POST | `/auth/login`    | Public  | Login with username , password               |
+### Auth
 
-````
-register
-
-url: 
-    http://localhost:8080/auth/register
-
-body:
-    {
-      "username": "john",
-      "password": "123456",
-      "email": "test@test.com",
-      "name": "myname"
-    }
-    
- >>>Response<<
-    {
-    "email": "test@test.com",
-    "id": "18eb5ee5-f833-4f49-b4de-c5232dfd625f",
-    "name": "myname",
-    "password": "123456",
-    "username": "john"
-}
-    
-    >>>Response duplicate<<
-    {
-        "message": "Username already exists"
-    }
-    
-        >>>Response Error<<
-    {
-        "message": "error message"
-    }
-````
-````
-login
-
-url: 
-    http://localhost:8080/auth/login
-
-body:
-    {
-      "username": "john",
-      "password": "123456"
-    }
-    
- >>>Response<<
-    {
-        "message": "success"
-    }
-    
-    >>>Response Wrong password<<
-    {
-        "message": "Invalid username or password"
-    }
-    
-    >>>Response Error<<
-    {
-        "timestamp": "2026-07-06T07:25:01.938Z",
-        "status": 400,
-        "error": "Bad Request",
-        "path": "/auth/login"
-    }
-````
-
+| Method | Endpoint         | Auth   | Description                      |
+| ------ | ---------------- | ------ | -------------------------------- |
+| POST   | `/auth/register` | Public | Register a new user              |
+| POST   | `/auth/login`    | Public | Login with username and password |
 
 ### Events
 
-| Method | Endpoint          | Auth | Description                           |
-|--------|-------------------|------|---------------------------------------|
-| POST   | `/events/create`  | id   |  |
-| GET    | `/events/all`     | id   |      |
-| PATCH  | `/events/update`  | id   | |
-| POST   | `/events/archive` | id   |              |
-| DELETE | `/events/delete`  | id   | delete   |
+| Method | Endpoint          | Auth                | Description               |
+| ------ | ----------------- | ------------------- | ------------------------- |
+| POST   | `/events/create`  | `userId`            | Create an event           |
+| GET    | `/events/all`     | `userId`            | Get all events for a user |
+| PATCH  | `/events/update`  | `userId`, `eventId` | Update an event           |
+| POST   | `/events/archive` | `userId`, `eventId` | Archive an event          |
+| DELETE | `/events/delete`  | `userId`, `eventId` | Delete an event           |
 
-create
-http://localhost:8080/events/create?userId=8f9c6e3c-3cfc-49f7-a087-a7f1e5b09c46
+---
+
+## Auth
+
+### POST Register
+
+**Endpoint**
+
+```text
+{{baseUrl}}/auth/register
+```
+
+**Body**
+
+```json
 {
-"title":" my Fist Event",
-"description":"Sing and Dance",
-"location":"Orleans",
-"start": "2026-07-04T07:14:24",
-"end": "2026-07-04T09:00:00",
-"category":"work",
-"status":"Published"
-
+  "username": "john",
+  "password": "123456",
+  "email": "test@test.com",
+  "name": "myname"
 }
+```
 
+**Success Response**
+
+```json
 {
-"category": "WORK",
-"description": "Sing and Dance",
-"end": "2026-07-04T09:00:00",
-"id": "9490eac1-ed27-40ed-ab04-33a28a858e61", //eventId
-"location": "Orleans",
-"start": "2026-07-04T07:14:24",
-"status": "PUBLISHED",
-"title": " my Fist Event"
+  "email": "test@test.com",
+  "id": "18eb5ee5-f833-4f49-b4de-c5232dfd625f",
+  "name": "myname",
+  "password": "123456",
+  "username": "john"
 }
+```
 
-get
-http://localhost:8080/events/all?userId=c0ed8e6c-8f9c-4eff-8c34-ed5649c62976
+**Duplicate Username Response**
 
+```json
+{
+  "message": "Username already exists"
+}
+```
+
+**Error Response**
+
+```json
+{
+  "message": "error message"
+}
+```
+
+### POST Login
+
+**Endpoint**
+
+```text
+{{baseUrl}}/auth/login
+```
+
+**Body**
+
+```json
+{
+  "username": "john",
+  "password": "123456"
+}
+```
+
+**Success Response**
+
+```json
+{
+  "message": "success"
+}
+```
+
+**Wrong Password Response**
+
+```json
+{
+  "message": "Invalid username or password"
+}
+```
+
+**Error Response**
+
+```json
+{
+  "timestamp": "2026-07-06T07:25:01.938Z",
+  "status": 400,
+  "error": "Bad Request",
+  "path": "/auth/login"
+}
+```
+
+---
+
+## Events
+
+### POST Create Event
+
+**Endpoint**
+
+```text
+{{baseUrl}}/events/create?userId={{userId}}
+```
+
+**Query Parameters**
+
+```text
+userId={{userId}}
+```
+
+**Body**
+
+```json
+{
+  "title": " my Fist Event",
+  "description": "Sing and Dance",
+  "location": "Orleans",
+  "start": "2026-07-04T07:14:24",
+  "end": "2026-07-04T09:00:00",
+  "category": "work",
+  "status": "Published"
+}
+```
+
+**Success Response**
+
+```json
+{
+  "category": "WORK",
+  "description": "Sing and Dance",
+  "end": "2026-07-04T09:00:00",
+  "id": "9490eac1-ed27-40ed-ab04-33a28a858e61",
+  "location": "Orleans",
+  "start": "2026-07-04T07:14:24",
+  "status": "PUBLISHED",
+  "title": " my Fist Event"
+}
+```
+
+> The returned `id` is saved as `{{eventId}}` for subsequent event operations.
+
+### GET Get All Events
+
+**Endpoint**
+
+```text
+{{baseUrl}}/events/all?userId={{userId}}
+```
+
+**Query Parameters**
+
+```text
+userId={{userId}}
+```
+
+**Success Response**
+
+```json
 [
+  {
+    "title": " my Fist Event",
+    "description": "Sing and Dance",
+    "location": "Orleans",
+    "start": "2026-07-04T07:14:24",
+    "end": "2026-07-04T09:00:00",
+    "category": "WORK",
+    "status": "PUBLISHED",
+    "user": {
+      "username": "john",
+      "password": "123456",
+      "email": "test@test.com",
+      "name": "myname",
+      "active": true,
+      "createdAt": "2026-07-06T02:47:13.445603"
+    }
+  }
+]
+```
+
+### PATCH Update Event
+
+**Endpoint**
+
+```text
+{{baseUrl}}/events/update?userId={{userId}}&eventId={{eventId}}
+```
+
+**Query Parameters**
+
+```text
+userId={{userId}}
+eventId={{eventId}}
+```
+
+**Body**
+
+```json
 {
-"title": " my Fist Event",
-"description": "Sing and Dance",
-"location": "Orleans",
-"start": "2026-07-04T07:14:24",
-"end": "2026-07-04T09:00:00",
-"category": "WORK",
-"status": "PUBLISHED",
-"user": {
-"username": "john",
-"password": "123456",
-"email": "test@test.com",
-"name": "myname",
-"active": true,
-"createdAt": "2026-07-06T02:47:13.445603",
-"events": [
-{
-"title": " my Fist Event",
-"description": "Sing and Dance",
-"location": "Orleans",
-"start": "2026-07-04T07:14:24",
-"end": "2026-07-04T09:00:00",
-"category": "WORK",
-"status": "PUBLISHED",
-"user"...
-
-
-update
-http://localhost:8080/events/update?userId=c0ed8e6c-8f9c-4eff-8c34-ed5649c62976&eventId=9490eac1-ed27-40ed-ab04-33a28a858e61
-
-{
-"title":" my Fist Event",
-"description":"Sing and Dance",
-"location":"London",
-"start": "2026-07-04T07:14:24",
-"end": "2026-07-04T09:00:00",
-"category":"Personal",
-"status":"draft"
-
+  "title": " my Fist Event",
+  "description": "Sing and Dance",
+  "location": "London",
+  "start": "2026-07-04T07:14:24",
+  "end": "2026-07-04T09:00:00",
+  "category": "Personal",
+  "status": "draft"
 }
+```
 
+**Success Response**
 
+```json
 {
-"category": "PERSONAL",
-"description": "Sing and Dance",
-"end": "2026-07-04T09:00:00",
-"id": "9490eac1-ed27-40ed-ab04-33a28a858e61",
-"location": "London",
-"start": "2026-07-04T07:14:24",
-"status": "DRAFT",
-"title": " my Fist Event"
+  "category": "PERSONAL",
+  "description": "Sing and Dance",
+  "end": "2026-07-04T09:00:00",
+  "id": "9490eac1-ed27-40ed-ab04-33a28a858e61",
+  "location": "London",
+  "start": "2026-07-04T07:14:24",
+  "status": "DRAFT",
+  "title": " my Fist Event"
 }
+```
 
+### POST Archive Event
 
-archive
-http://localhost:8080/events/archieve?userId=c0ed8e6c-8f9c-4eff-8c34-ed5649c62976&eventId=9490eac1-ed27-40ed-ab04-33a28a858e61
+**Endpoint**
 
+```text
+{{baseUrl}}/events/archieve?userId={{userId}}&eventId={{eventId}}
+```
+
+**Query Parameters**
+
+```text
+userId={{userId}}
+eventId={{eventId}}
+```
+
+**Success Response**
+
+```json
 {
-"message": "Event Archived Successfully"
+  "message": "Event Archived Successfully"
 }
+```
 
-delete
-http://localhost:8080/events/delete?userId=c0ed8e6c-8f9c-4eff-8c34-ed5649c62976&eventId=9490eac1-ed27-40ed-ab04-33a28a858e61
+### DELETE Delete Event
+
+**Endpoint**
+
+```text
+{{baseUrl}}/events/delete?userId={{userId}}&eventId={{eventId}}
+```
+
+**Query Parameters**
+
+```text
+userId={{userId}}
+eventId={{eventId}}
+```
+
+**Success Response**
+
+```json
 {
-"message": "Event deleted Successfully"
+  "message": "Event deleted Successfully"
 }
+```
