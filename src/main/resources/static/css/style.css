@@ -1,0 +1,51 @@
+body {
+  margin: 10%;
+  padding: 5px;
+  text-align: center;
+  background-color: rgb(17, 19, 26);
+  color: rgb(255, 255, 255);
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+
+#loginForm,
+#registerForm {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: start;
+  justify-self: center;
+  gap: 20px;
+  border: 1px solid white;
+  border-radius: 18px;
+  padding: 20px;
+  margin: auto;
+}
+
+input {
+  min-height: 20px;
+}
+
+p,
+span {
+  width: 100%;
+  text-align: center;
+}
+
+.error {
+  border-color: rgb(255, 2, 2);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button {
+  border: none;
+}
+
+button:hover {
+  background-color: rgb(10, 56, 207);
+  color: rgb(255, 255, 255);
+}
