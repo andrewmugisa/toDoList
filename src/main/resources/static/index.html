@@ -5,13 +5,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/script.js" defer></script>
 </head>
 
 <body>
-  hello
+
+  <form id="loginForm">
+    <p>Welcome to my to-Do List</p>
+    <div>
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" placeholder="john@doe.com" required>
+    </div>
+
+    <div>
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" required>
+      <button id="loginTogglePassword" type="button">show</button>
+    </div>
+
+    <div id="loginErrors"></div>
+
+    <span><a href="#registerForm" class="toRegister">Signup!</a></span>
+
+    <button type="button" id="loginSubmitBtn">Submit</button>
+
+  </form>
+
+  <form id="registerForm" hidden>
+    <p>Welcome to my to-Do List</p>
+
+    <div>
+      <label for="registerName">Name</label>
+      <input type="text" id="registerName" placeholder="john doe" required>
+    </div>
+
+    <div>
+      <label for="registerEmail">Email</label>
+      <input type="email" id="registerEmail" placeholder="john@doe.com" required>
+    </div>
+
+    <div>
+      <label for="registerPassword">Password</label>
+      <input type="password" id="registerPassword" required>
+      <button id="registerTogglePassword" type="button">show</button>
+    </div>
+
+    <div>
+      <label for="registerPasswordConfirm">Re-type<br>Password</label>
+      <input type="password" id="registerPasswordConfirm" required>
+      <button id="registerTogglePassword" type="button">show</button>
+    </div>
+
+    <div id="registerErrors"></div>
+
+    <span><a href="#loginForm" class="toLogin">Back to Login</a></span>
+
+    <button type="button" id="registerSubmitBtn">Submit</button>
+
+  </form>
 
 </body>
-<script src="/script.js"></script>
+<script src="/js/script.js"></script>
 
 </html>
